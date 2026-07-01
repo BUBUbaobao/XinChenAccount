@@ -18,6 +18,13 @@ Component({
   _w: 0,
   _h: 0,
 
+  observers: {
+    'data, centerText'() {
+      // 数据变化时自动重绘（ready 之后生效）
+      if (this._ready) this.draw()
+    }
+  },
+
   ready() {
     const query = this.createSelectorQuery()
     query.select('#chartCanvas')
@@ -40,16 +47,16 @@ Component({
       })
   },
 
-  /**
-   * 公开方法：页面在 setData 后调用此方法触发重绘
-   */
-  draw() {
-    if (!this._ready) return
-    if (!this.properties.data || this.properties.data.length === 0) return
-    this._draw()
-  },
-
   methods: {
+    /**
+     * 公开方法：数据变化后调用此方法触发重绘
+     */
+    draw() {
+      if (!this._ready) return
+      if (!this.properties.data || this.properties.data.length === 0) return
+      this._draw()
+    },
+
     _draw() {
       if (this.properties.type === 'donut') this._drawDonut()
       else if (this.properties.type === 'line') this._drawLine()

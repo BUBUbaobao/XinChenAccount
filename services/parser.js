@@ -149,6 +149,22 @@ function parseGenericText(text) {
     }
   }
 
+  // 关键词匹配分类
+  if (result.success) {
+    const rules = storage.getCached(storage.KEYS.RULES) || []
+    const enabledRules = rules.filter(r => r.enabled !== false)
+    enabledRules.sort((a, b) => b.keyword.length - a.keyword.length)
+    for (let i = 0; i < enabledRules.length; i++) {
+      if (text.includes(enabledRules[i].keyword)) {
+        result.categoryId = enabledRules[i].categoryId
+        const cats = storage.getCached(storage.KEYS.CATEGORIES) || []
+        const cat = cats.find(c => c.id === enabledRules[i].categoryId)
+        if (cat) result.categoryName = cat.name
+        break
+      }
+    }
+  }
+
   if (!result.success) result.failReason = '未识别到金额'
   return result
 }

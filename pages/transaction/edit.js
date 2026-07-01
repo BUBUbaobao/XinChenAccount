@@ -144,9 +144,12 @@ Page({
   },
 
   onSave() {
+    if (this._saving) return
+    this._saving = true
     const { id, amount, type, categories, categoryIndex, accounts, accountIndex, note, description, timestamp } = this.data
     if (amount === 0) {
       wx.showToast({ title: '请输入金额', icon: 'none' })
+      this._saving = false
       return
     }
 

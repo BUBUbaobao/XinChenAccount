@@ -71,6 +71,7 @@ Component({
      * 打开半弹层
      */
     open(data) {
+      this._saving = false
       this.refreshData()
       const now = Date.now()
       const d = data || {}
@@ -253,8 +254,10 @@ Component({
      * 保存
      */
     onSave() {
+      if (this._saving) return
       const { amount, type, selectedCategoryId, note, accountIndex, accounts, timestamp } = this.data
       if (amount === 0 || !selectedCategoryId) return
+      this._saving = true
 
       const categories = this.data.categories
       const category = categories.find(c => c.id === selectedCategoryId)
