@@ -27,9 +27,38 @@ App({
   },
 
   onShow(options) {
-    if (options && options.referrerInfo && options.referrerInfo.extraData) {
-      this.handleForwardMessage(options)
-    }
+    // 自动检测剪贴板中的支付消息
+    this.checkClipboard()
+  },
+
+  /**
+   * 自动检测剪贴板，识别支付消息后存储到 globalData
+   * 首页可读取 pendingPasteData 展示快速确认条
+   */
+  checkClipboard() {
+    // 仅在首页 Tab 时检测，避免每个 Tab 切换都弹权限
+    const pages = getCurrentPages()
+    if (pages.length === 0) return
+    const route = pages[pages.length - 1].route
+    if (route !== 'pages/home/home') return
+
+    const parser = require('./services/parser')
+    wx.getClipboardData({
+      success(res) {
+        const text = res.data || ''
+        // 仅当剪贴板包含支付凭证特征时才触发
+        if (!text.includes('支付') && !text.includes('¥') && !text.includes('￥')) return
+        const result = parser.parse(text)
+        if (result.success) {
+          // 防止同一内容重复弹
+          const app = getApp()
+          if (app.globalData._lastClipText === text) return
+          app.globalData._lastClipText = text
+          app.globalData.pendingPasteData = result
+        }
+      },
+      fail() {}
+    })
   },
 
   initPresetData() {
@@ -53,6 +82,7 @@ App({
     this.globalData.accounts    = storage.getCached(storage.KEYS.ACCOUNTS)
     this.globalData.rules       = storage.getCached(storage.KEYS.RULES)
     this.globalData.budgets     = storage.getCached(storage.KEYS.BUDGETS)
+    this.globalData.parse_logs  = storage.getCached(storage.KEYS.PARSE_LOGS)
     this.globalData.config      = storage.getCached(storage.KEYS.APP_CONFIG)
     this.globalData.dataVersion = storage.getVersion()
 
@@ -87,8 +117,11 @@ App({
     accounts: [],
     rules: [],
     budgets: [],
+    parse_logs: [],
     config: null,
     dataVersion: 0,
-    pendingForwardData: null
+    pendingForwardData: null,
+    pendingPasteData: null,
+    _lastClipText: ''
   }
 })

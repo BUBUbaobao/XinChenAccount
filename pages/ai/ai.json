@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "custom-tab-bar": "/components/custom-tab-bar/index"
+    "custom-tab-bar": "/components/custom-tab-bar/index",
+    "ai-bubble": "/components/ai-bubble/ai-bubble"
   },
   "navigationBarTitleText": "AI助手"
 }

@@ -1,0 +1,30 @@
+<view class="bubble-wrap {{role}}">
+  <!-- 头像 -->
+  <view class="bubble-avatar">{{role === 'user' ? '👤' : '🤖'}}</view>
+
+  <!-- 气泡内容 -->
+  <view class="bubble-content {{role}}">
+    <!-- 加载动画 -->
+    <view wx:if="{{loading}}" class="loading-dots">
+      <view class="dot"></view>
+      <view class="dot"></view>
+      <view class="dot"></view>
+    </view>
+
+    <!-- 富文本渲染（助理消息） -->
+    <block wx:elif="{{segments.length > 0}}">
+      <block wx:for="{{segments}}" wx:key="index">
+        <text wx:if="{{item.type === 'text'}}" class="md-text">{{item.content}}</text>
+        <text wx:elif="{{item.type === 'bold'}}" class="md-bold">{{item.content}}</text>
+        <text wx:elif="{{item.type === 'italic'}}" class="md-italic">{{item.content}}</text>
+        <text wx:elif="{{item.type === 'h3'}}" class="md-h3">{{item.content}}</text>
+        <view wx:elif="{{item.type === 'li'}}" class="md-li">• {{item.content}}</view>
+        <view wx:elif="{{item.type === 'ol'}}" class="md-li"> {{item.content}}</view>
+        <view wx:elif="{{item.type === 'br'}}" class="md-br"></view>
+      </block>
+    </block>
+
+    <!-- 纯文本（用户消息或无 segments 时） -->
+    <text wx:else class="bubble-text">{{content}}</text>
+  </view>
+</view>

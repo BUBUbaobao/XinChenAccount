@@ -131,6 +131,20 @@ const DEFAULT_APP_CONFIG = {
   theme: 'light'            // 固定浅色
 }
 
+// ─── 马卡龙调色盘（10色，用于图表分类着色） ───
+const MACARON_PALETTE = [
+  '#F8BBD0',  // 樱花粉
+  '#A5D6A7',  // 薄荷绿
+  '#B2EBF2',  // 薄荷蓝
+  '#FFE082',  // 鹅黄
+  '#FFAB91',  // 蜜橘
+  '#CE93D8',  // 薰衣草紫
+  '#80CBC4',  // 青瓷绿
+  '#FFCC80',  // 杏橙
+  '#B39DDB',  // 浅紫
+  '#F48FB1'   // 玫瑰粉
+]
+
 // ─── 去重时间窗口（毫秒） ───
 const DEDUP_WINDOW_MS = 10 * 1000
 
@@ -139,6 +153,7 @@ const PAGE_SIZE = 20
 
 module.exports = {
   COLORS,
+  MACARON_PALETTE,
   PRESET_CATEGORIES,
   PRESET_ACCOUNTS,
   PRESET_RULES,

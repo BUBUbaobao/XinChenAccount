@@ -29,7 +29,7 @@ Component({
 
   methods: {
     onTap() {
-      this.triggerEvent('tap', { id: this.data.transaction.id })
+      this.triggerEvent('itemtap', { id: this.data.transaction.id })
     }
   }
 })

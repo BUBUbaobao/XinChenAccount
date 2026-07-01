@@ -5,6 +5,13 @@
       <!-- 拖拽把手 -->
       <view class="sheet-handle"></view>
 
+      <!-- 粘贴识别按钮 -->
+      <view class="paste-bar" bindtap="onPaste">
+        <text class="paste-icon">📋</text>
+        <text class="paste-text">粘贴识别</text>
+        <text class="paste-hint">复制微信支付消息后点这里</text>
+      </view>
+
       <!-- 类型切换：支出/收入 -->
       <view class="type-switch">
         <view class="type-tab {{type === 'expense' ? 'active expense' : ''}}" bindtap="switchType" data-type="expense">支出</view>

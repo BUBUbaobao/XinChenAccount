@@ -1,1 +1,79 @@
-<view class="page-container flex-center" style="height:100vh;"><text class="text-secondary">规则管理 — 第三阶段实现</text></view>
+<view class="page-container">
+
+  <!-- 头部标题 -->
+  <view class="page-header">
+    <text class="page-title">规则管理</text>
+    <text class="page-desc text-secondary">关键词匹配后自动归类到对应分类</text>
+  </view>
+
+  <!-- 规则列表 -->
+  <view class="card" wx:if="{{rules.length > 0}}">
+    <view class="rules-list">
+      <view
+        class="rule-item flex-between"
+        wx:for="{{rules}}"
+        wx:key="id"
+        bindlongpress="onLongPress"
+        data-id="{{item.id}}"
+        data-keyword="{{item.keyword}}"
+        data-is-preset="{{item.isPreset}}"
+      >
+        <view class="rule-info">
+          <text class="rule-keyword">{{item.keyword}}</text>
+          <text class="rule-arrow">→</text>
+          <text class="rule-cat-name">{{item.categoryEmoji}} {{item.categoryName}}</text>
+          <view class="preset-tag" wx:if="{{item.isPreset}}">
+            <text>预置</text>
+          </view>
+        </view>
+        <switch
+          checked="{{item.enabled}}"
+          bindchange="onToggle"
+          data-id="{{item.id}}"
+          color="#F8BBD0"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <empty-state wx:else icon="🔗" text="暂无规则" subText="添加关键词规则来自动归类"></empty-state>
+
+  <!-- 添加表单 -->
+  <view class="card" wx:if="{{showForm}}">
+    <view class="form-title">添加规则</view>
+    <view class="form-row">
+      <text class="form-label">关键词</text>
+      <input
+        class="form-input"
+        placeholder="输入关键词，如：星巴克"
+        value="{{keyword}}"
+        bindinput="onKeywordInput"
+        maxlength="20"
+      />
+    </view>
+    <view class="form-row">
+      <text class="form-label">归类到</text>
+      <picker
+        mode="selector"
+        range="{{categoryNames}}"
+        value="{{selectedCategoryIndex}}"
+        bindchange="onCategoryPick"
+      >
+        <view class="form-picker">
+          <text>{{categoryNames[selectedCategoryIndex] || '请选择分类'}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+    <view class="btn-primary" bindtap="onAdd">添加规则</view>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="add-fab" bindtap="onToggleForm" wx:if="{{!showForm}}">
+    <text class="add-fab-icon">{{showForm ? '✕' : '＋'}}</text>
+    <text class="add-fab-text">添加规则</text>
+  </view>
+
+  <view style="height: 160rpx;"></view>
+</view>

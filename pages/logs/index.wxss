@@ -1,1 +1,32 @@
-/* 解析日志样式 — 第二阶段实现 */
+/* ─── 解析日志 ─── */
+.log-item {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--color-divider);
+}
+.log-item:last-child { border-bottom: none; }
+
+.log-header { margin-bottom: 8rpx; }
+
+.log-tag {
+  font-size: 22rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 16rpx;
+  font-weight: 500;
+}
+.log-tag.success { background: rgba(165,214,167,0.2); color: var(--color-income); }
+.log-tag.fail { background: rgba(255,138,128,0.15); color: var(--color-expense); }
+
+.log-time { font-size: 22rpx; }
+
+.log-raw {
+  font-size: 24rpx;
+  background: var(--color-bg);
+  padding: 12rpx 16rpx;
+  border-radius: 12rpx;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  display: block;
+  margin: 8rpx 0;
+}
+
+.log-result, .log-fail { font-size: 24rpx; margin-top: 4rpx; }

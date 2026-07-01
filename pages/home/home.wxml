@@ -1,4 +1,16 @@
 <view class="page-container">
+  <!-- 粘贴识别横幅 -->
+  <view class="paste-banner" wx:if="{{pasteData}}" bindtap="onPasteBanner">
+    <text class="paste-banner-icon">📋</text>
+    <view class="paste-banner-info">
+      <text class="paste-banner-title">{{pasteData.merchant || '支付记录'}}</text>
+      <text class="paste-banner-amount {{pasteData.type === 'income' ? 'text-income' : 'text-expense'}}">
+        {{pasteData.type === 'income' ? '+' : '-'}}¥{{pasteData.amount}}
+      </text>
+    </view>
+    <text class="paste-banner-action">点击确认 ›</text>
+  </view>
+
   <!-- 问候区 + 搜索 -->
   <view class="header">
     <view class="greeting">
@@ -32,6 +44,16 @@
         <view class="budget-fill" style="width: {{budgetPercent > 100 ? 100 : budgetPercent}}%;"></view>
       </view>
       <text class="budget-text text-secondary">预算使用 {{budgetPercent}}%</text>
+    </view>
+  </view>
+
+  <!-- 超支提醒 -->
+  <view class="overspent-bar" wx:if="{{overspentCategories.length > 0}}">
+    <text class="overspent-icon">⚠️</text>
+    <view class="overspent-info">
+      <text class="overspent-text" wx:for="{{overspentCategories}}" wx:key="name">
+        {{item.emoji}}{{item.name}}超支¥{{item.over}}
+      </text>
     </view>
   </view>
 
@@ -80,7 +102,7 @@
             <transaction-item
               transaction="{{item}}"
               emoji="{{item.categoryEmoji || '📦'}}"
-              bind:tap="onRecordTap"
+              bind:itemtap="onRecordTap"
               data-id="{{item.id}}"
             />
             <view class="divider"></view>

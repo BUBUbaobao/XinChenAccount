@@ -33,13 +33,12 @@
   width: 112rpx;
 }
 
-.tab-emoji {
-  font-size: 40rpx;
-  line-height: 1.2;
-  transition: transform 0.2s ease;
+.tab-icon {
+  width: 40rpx;
+  height: 40rpx;
 }
 
-.tab-item:active .tab-emoji {
+.tab-item:active .tab-icon {
   transform: scale(0.85);
 }
 

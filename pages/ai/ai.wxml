@@ -1,4 +1,68 @@
-<view class="page-container flex-center" style="height:100vh;">
-  <text class="text-secondary">AI助手页面 — 第五阶段实现</text>
+<view class="page-container">
+
+  <!-- 顶部栏 -->
+  <view class="ai-header">
+    <text class="ai-title">✨ 智能建议</text>
+  </view>
+
+  <!-- 欢迎状态 -->
+  <view class="welcome-area" wx:if="{{showWelcome && !loading}}">
+    <view class="welcome-bubble">
+      <text class="welcome-text">嗨~ 我是你的 AI 理财小助手"小昕" ✨</text>
+      <text class="welcome-text">先记几天账，我就知道怎么帮你省钱啦~</text>
+      <text class="welcome-hint text-secondary">你可以问我任何关于消费的问题，也可以点击下方按钮生成报告</text>
+    </view>
+  </view>
+
+  <!-- 对话区域 -->
+  <view class="chat-area" id="chatArea" wx:if="{{!showWelcome || loading}}">
+    <ai-bubble
+      wx:for="{{messages}}"
+      wx:key="id"
+      role="{{item.role}}"
+      content="{{item.content}}"
+      segments="{{item.segments}}"
+    />
+    <!-- 流式输出气泡（实时显示） -->
+    <ai-bubble
+      wx:if="{{loading && streamingContent}}"
+      role="assistant"
+      segments="{{streamingSegments}}"
+    />
+    <!-- 纯加载气泡（无内容时） -->
+    <ai-bubble
+      wx:if="{{loading && !streamingContent}}"
+      role="assistant"
+      loading="{{true}}"
+    />
+    <view id="chatEnd"></view>
+  </view>
+
+  <view style="height: 240rpx;"></view>
 </view>
+
+<!-- 底部操作区 -->
+<view class="bottom-bar">
+  <!-- 生成报告按钮 -->
+  <view class="report-btn" bindtap="onGenerateReport">
+    <text>📊 生成消费报告</text>
+  </view>
+
+  <!-- 输入框 -->
+  <view class="input-row">
+    <input
+      class="msg-input"
+      placeholder="问问 AI..."
+      value="{{inputValue}}"
+      bindinput="onInput"
+      bindconfirm="onSend"
+      confirm-type="send"
+      adjust-position="{{true}}"
+    />
+    <view class="send-btn {{inputValue ? 'active' : ''}}" bindtap="onSend">
+      <text>发送</text>
+    </view>
+  </view>
+</view>
+
 <custom-tab-bar></custom-tab-bar>

@@ -1,1 +1,29 @@
-<view class="page-container flex-center" style="height:100vh;"><text class="text-secondary">解析日志 — 第二阶段实现</text></view>
+<view class="page-container">
+
+  <view class="page-header">
+    <text class="page-title">解析日志</text>
+    <text class="page-desc text-secondary">粘贴识别的历史记录</text>
+  </view>
+
+  <view class="card" wx:if="{{logs.length > 0}}">
+    <view class="log-list">
+      <view class="log-item" wx:for="{{logs}}" wx:key="id">
+        <view class="log-header flex-between">
+          <view class="log-tag {{item.status === 'success' ? 'success' : 'fail'}}">
+            <text>{{item.status === 'success' ? '✅' : '❌'}} {{item.status === 'success' ? '成功' : '失败'}}</text>
+          </view>
+          <text class="log-time text-secondary">{{item.timeLabel}}</text>
+        </view>
+        <text class="log-raw text-secondary">{{item.rawText}}</text>
+        <view class="log-result" wx:if="{{item.status === 'success'}}">
+          <text class="text-secondary">→ {{item.type === 'income' ? '收入' : '支出'}} ¥{{item.amount}} {{item.categoryName}}（{{item.merchant}}）</text>
+        </view>
+        <text class="log-fail text-expense" wx:else>失败原因：{{item.failReason}}</text>
+      </view>
+    </view>
+  </view>
+
+  <empty-state wx:else icon="📋" text="暂无解析日志" subText="使用粘贴识别后，解析记录会出现在这里"></empty-state>
+
+  <view style="height: 160rpx;"></view>
+</view>

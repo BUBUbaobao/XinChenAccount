@@ -1,5 +1,6 @@
 const app = getApp()
 const storage = require('../../services/storage')
+const parser = require('../../services/parser')
 const { generateId, formatDate } = require('../../utils/format')
 
 Component({
@@ -72,20 +73,68 @@ Component({
     open(data) {
       this.refreshData()
       const now = Date.now()
+      const d = data || {}
+      const amount = d.amount || 0
+      const amountStr = amount ? amount.toString() : ''
+      const displayAmount = amountStr || '0'
+      // 预填账户
+      let acctIdx = 0
+      if (d.accountId) {
+        const found = this.data.accounts.findIndex(a => a.id === d.accountId)
+        if (found >= 0) acctIdx = found
+      }
+
       this.setData({
         visible: true,
-        type: (data && data.type) || 'expense',
-        selectedCategoryId: (data && data.categoryId) || (this.data.categories[0] ? this.data.categories[0].id : ''),
-        amountStr: '',
-        amount: 0,
-        displayAmount: '0',
-        showExtra: false,
-        note: (data && data.note) || '',
-        accountIndex: 0,
+        type: d.type || 'expense',
+        selectedCategoryId: d.categoryId || (this.data.categories[0] ? this.data.categories[0].id : ''),
+        amountStr,
+        amount,
+        displayAmount,
+        showExtra: !!d.note,
+        note: d.note || '',
+        accountIndex: acctIdx,
         dateValue: formatDate(now),
         dateLabel: '今天',
         timestamp: now,
         saved: false
+      })
+    },
+
+    /**
+     * 粘贴识别：读取剪贴板 → 解析 → 自动填充
+     */
+    onPaste() {
+      const that = this
+      wx.getClipboardData({
+        success(res) {
+          const text = res.data || ''
+          const result = parser.parse(text)
+          if (!result.success) {
+            wx.showToast({ title: result.failReason || '未识别到支付信息', icon: 'none' })
+            return
+          }
+          // 自动填入解析结果
+          const catIndex = that.data.categories.findIndex(c => c.id === result.categoryId)
+          const acctIndex = that.data.accounts.findIndex(a => a.id === result.accountId)
+          const amountStr = result.amount.toString()
+          const displayAmount = amountStr.includes('.') ? amountStr : amountStr + '.00'
+
+          that.setData({
+            type: result.type,
+            selectedCategoryId: result.categoryId,
+            amountStr: result.amount.toString(),
+            amount: result.amount,
+            displayAmount: displayAmount.replace(/\.?0+$/, '').replace(/\.$/, ''),
+            note: result.merchant || '',
+            accountIndex: acctIndex >= 0 ? acctIndex : 0,
+            showExtra: true  // 展开让用户看到自动填的备注
+          })
+          wx.showToast({ title: '已识别，请确认', icon: 'success' })
+        },
+        fail() {
+          wx.showToast({ title: '请先复制微信支付消息', icon: 'none' })
+        }
       })
     },
 

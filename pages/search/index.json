@@ -1,1 +1,7 @@
-{"usingComponents":{},"navigationBarTitleText":"搜索"}
+{
+  "usingComponents": {
+    "transaction-item": "/components/transaction-item/transaction-item",
+    "empty-state": "/components/empty-state/empty-state"
+  },
+  "navigationBarTitleText": "搜索"
+}

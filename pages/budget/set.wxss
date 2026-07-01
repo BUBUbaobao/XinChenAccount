@@ -1,1 +1,257 @@
-/* 预算设置样式 — 第四阶段实现 */
+/* ─── 页面头部 ─── */
+.page-header {
+  padding: 32rpx 32rpx 8rpx;
+}
+
+.page-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  display: block;
+}
+
+.page-desc {
+  font-size: 24rpx;
+  margin-top: 8rpx;
+  display: block;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+/* ─── 总预算卡片 ─── */
+.total-budget-card {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.total-header {
+  margin-bottom: 12rpx;
+}
+
+.total-label-row {
+  display: flex;
+  align-items: center;
+}
+
+.total-emoji {
+  font-size: 36rpx;
+  margin-right: 12rpx;
+}
+
+.total-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.total-arrow {
+  font-size: 36rpx;
+  color: var(--color-text-secondary);
+}
+
+.total-amount-row {
+  margin-bottom: 16rpx;
+}
+
+.total-used {
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.total-budget-amt {
+  font-size: 28rpx;
+  margin-left: 8rpx;
+}
+
+/* ─── 进度条（总预算） ─── */
+.budget-track {
+  height: 16rpx;
+  border-radius: 8rpx;
+  background: #F5F0F0;
+  overflow: hidden;
+  margin-bottom: 8rpx;
+}
+
+.budget-fill {
+  height: 100%;
+  border-radius: 8rpx;
+  background: linear-gradient(90deg, var(--color-expense), var(--color-tertiary));
+  transition: width 0.5s ease;
+}
+
+.budget-fill.over {
+  background: var(--color-expense);
+}
+
+.budget-percent {
+  font-size: 24rpx;
+  display: block;
+}
+
+/* ─── 分类预算列表 ─── */
+.budget-item {
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.budget-item:last-child {
+  border-bottom: none;
+}
+
+.budget-left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 16rpx;
+}
+
+.budget-emoji {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.budget-name {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+}
+
+.budget-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.budget-amount-row {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 4rpx;
+}
+
+.budget-used {
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+.budget-cap {
+  font-size: 24rpx;
+  margin-left: 4rpx;
+}
+
+.budget-track-sm {
+  width: 100%;
+  height: 8rpx;
+  background: #F5F0F0;
+  border-radius: 4rpx;
+  overflow: hidden;
+  margin-bottom: 2rpx;
+}
+
+.budget-fill-sm {
+  height: 100%;
+  border-radius: 4rpx;
+  background: linear-gradient(90deg, var(--color-expense), var(--color-tertiary));
+  transition: width 0.5s ease;
+}
+
+.budget-fill-sm.over {
+  background: var(--color-expense);
+}
+
+.budget-percent-sm {
+  font-size: 22rpx;
+}
+
+/* ─── 修改弹窗 ─── */
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+.modal-sheet {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--color-card);
+  border-radius: 48rpx 48rpx 0 0;
+  padding: 32rpx 32rpx 0;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 1001;
+  animation: modalUp 0.25s ease-out;
+}
+
+@keyframes modalUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-header {
+  margin-bottom: 32rpx;
+}
+
+.modal-cancel {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
+.modal-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.modal-save {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.modal-body {
+  padding-bottom: 40rpx;
+}
+
+.modal-label {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  display: block;
+  margin-bottom: 16rpx;
+}
+
+.modal-input-row {
+  display: flex;
+  align-items: center;
+  background: var(--color-bg);
+  border-radius: 24rpx;
+  padding: 0 24rpx;
+  height: 96rpx;
+  margin-bottom: 12rpx;
+}
+
+.modal-currency {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-right: 12rpx;
+}
+
+.modal-input {
+  flex: 1;
+  font-size: 36rpx;
+  color: var(--color-text-primary);
+}
+
+.modal-hint {
+  font-size: 24rpx;
+}

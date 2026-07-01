@@ -1,6 +1,8 @@
 {
   "usingComponents": {
-    "custom-tab-bar": "/components/custom-tab-bar/index"
+    "custom-tab-bar": "/components/custom-tab-bar/index",
+    "chart": "/components/chart/chart",
+    "empty-state": "/components/empty-state/empty-state"
   },
   "navigationBarTitleText": "统计"
 }

@@ -1,4 +1,115 @@
-<view class="page-container flex-center" style="height:100vh;">
-  <text class="text-secondary">统计页面 — 第三阶段实现</text>
+<view class="page-container">
+
+  <!-- 时期导航 -->
+  <view class="period-nav">
+    <view class="period-arrow" bindtap="onPrev">‹</view>
+    <text class="period-label">{{periodLabel}}</text>
+    <view class="period-arrow {{canGoNext ? '' : 'arrow-disabled'}}" bindtap="onNext">›</view>
+  </view>
+
+  <!-- 模式切换：月 / 季 / 年 -->
+  <view class="mode-toggle">
+    <view class="mode-capsule {{periodMode === 'month' ? 'active' : ''}}"
+          bindtap="onModeChange" data-mode="month">月</view>
+    <view class="mode-capsule {{periodMode === 'quarter' ? 'active' : ''}}"
+          bindtap="onModeChange" data-mode="quarter">季</view>
+    <view class="mode-capsule {{periodMode === 'year' ? 'active' : ''}}"
+          bindtap="onModeChange" data-mode="year">年</view>
+  </view>
+
+  <!-- 空状态 -->
+  <block wx:if="{{!hasData}}">
+    <empty-state icon="📊" text="暂无数据" subText="记一笔账单，统计数据就会出现在这里"></empty-state>
+  </block>
+
+  <!-- 有数据 -->
+  <block wx:else>
+    <!-- 汇总卡片 -->
+    <view class="card summary-row">
+      <view class="summary-item">
+        <text class="summary-label text-secondary">收入</text>
+        <text class="summary-value text-income">¥{{summary.income}}</text>
+      </view>
+      <view class="summary-divider"></view>
+      <view class="summary-item">
+        <text class="summary-label text-secondary">支出</text>
+        <text class="summary-value text-expense">¥{{summary.expense}}</text>
+      </view>
+      <view class="summary-divider"></view>
+      <view class="summary-item">
+        <text class="summary-label text-secondary">结余</text>
+        <text class="summary-value {{summary.balance >= 0 ? 'text-income' : 'text-expense'}}">
+          ¥{{summary.balance}}
+        </text>
+      </view>
+    </view>
+
+    <!-- 收支类型切换 -->
+    <view class="type-toggle">
+      <view class="type-capsule {{viewType === 'expense' ? 'active-expense' : ''}}"
+            bindtap="onTypeChange" data-type="expense">支出</view>
+      <view class="type-capsule {{viewType === 'income' ? 'active-income' : ''}}"
+            bindtap="onTypeChange" data-type="income">收入</view>
+    </view>
+
+    <!-- 环形图 -->
+    <view class="card chart-card" wx:if="{{donutData.length > 0}}">
+      <view class="chart-wrap">
+        <chart
+          id="donutChart"
+          type="donut"
+          data="{{donutData}}"
+          centerText="{{donutTotal}}"
+          centerSub="{{donutSub}}"
+          chartHeight="{{360}}"
+        />
+      </view>
+    </view>
+
+    <!-- 分类排行 -->
+    <view class="card ranking-section" wx:if="{{ranking.length > 0}}">
+      <text class="section-title">分类排行</text>
+      <view class="ranking-list">
+        <view class="ranking-item flex-between" wx:for="{{ranking}}" wx:key="categoryId">
+          <view class="ranking-left">
+            <text class="ranking-idx {{index < 3 ? 'idx-top' : ''}}">{{index + 1}}</text>
+            <view class="ranking-dot" style="background: {{item.color}};"></view>
+            <text class="ranking-emoji">{{item.emoji}}</text>
+            <text class="ranking-name">{{item.categoryName}}</text>
+          </view>
+          <view class="ranking-right">
+            <view class="ranking-amount-row">
+              <text class="ranking-amount {{viewType === 'income' ? 'text-income' : 'text-expense'}}">¥{{item.amount}}</text>
+              <text class="ranking-count text-secondary">{{item.count}}笔</text>
+            </view>
+            <view class="ranking-bar-track">
+              <view class="ranking-bar-fill" style="width: {{item.barPercent}}%; background: {{item.color}};"></view>
+            </view>
+            <text class="ranking-percent text-secondary">{{item.percent}}%</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 趋势柱状图（纯 View 实现，避免 Canvas 原生组件浮层问题） -->
+    <view class="card chart-card" wx:if="{{trendData.length > 0}}">
+      <text class="section-title">{{trendTitle}}</text>
+      <view class="bar-chart">
+        <view class="bar-row" wx:for="{{trendData}}" wx:key="dateKey">
+          <view class="bar-col">
+            <text class="bar-amt" wx:if="{{item.isPeak}}">¥{{item.amount}}</text>
+            <view
+              class="bar-fill {{item.isPeak ? 'bar-peak' : ''}}"
+              style="height: {{item.barHeight}}rpx; background: {{item.isPeak ? (viewType === 'expense' ? '#FF8A80' : '#A5D6A7') : (viewType === 'expense' ? '#FADADD' : '#D4EDDA')}};"
+            ></view>
+            <text class="bar-label {{item.isPeak ? 'bar-label-peak' : ''}}">{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+      <text class="peak-info text-secondary" wx:if="{{peakLabel}}">{{peakLabel}}</text>
+    </view>
+  </block>
+
+  <view style="height: 200rpx;"></view>
 </view>
 <custom-tab-bar></custom-tab-bar>

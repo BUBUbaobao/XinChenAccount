@@ -1,1 +1,94 @@
-<view class="page-container flex-center" style="height:100vh;"><text class="text-secondary">预算设置 — 第四阶段实现</text></view>
+<view class="page-container">
+
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <text class="page-title">{{monthLabel}}预算</text>
+    <text class="page-desc text-secondary">设置预算，理性消费 💡</text>
+  </view>
+
+  <!-- 总预算卡片 -->
+  <view class="card total-budget-card" bindtap="onEditBudget" data-istotal="{{true}}">
+    <view class="total-header flex-between">
+      <view class="total-label-row">
+        <text class="total-emoji">🎯</text>
+        <text class="total-title">总预算</text>
+      </view>
+      <text class="total-arrow">›</text>
+    </view>
+    <view class="total-amount-row">
+      <text class="total-used text-expense">已用 ¥{{totalUsed}}</text>
+      <text class="total-budget-amt text-secondary">/ {{totalBudget > 0 ? '¥' + totalBudget : '未设置'}}</text>
+    </view>
+    <view class="budget-track">
+      <view class="budget-fill {{totalPercent > 100 ? 'over' : ''}}" style="width: {{totalPercent > 100 ? 100 : totalPercent}}%;"></view>
+    </view>
+    <text class="budget-percent {{totalPercent > 100 ? 'text-expense' : 'text-secondary'}}">
+      {{totalBudget > 0 ? totalPercent + '%' : '点击设置总预算'}}
+    </text>
+  </view>
+
+  <!-- 分类预算列表 -->
+  <view class="card">
+    <text class="section-title">分类预算</text>
+    <view class="budget-list">
+      <view
+        class="budget-item flex-between"
+        wx:for="{{budgetList}}"
+        wx:key="categoryId"
+        bindtap="onEditBudget"
+        data-id="{{item.categoryId}}"
+        data-name="{{item.categoryName}}"
+        data-emoji="{{item.categoryEmoji}}"
+      >
+        <view class="budget-left">
+          <text class="budget-emoji">{{item.categoryEmoji}}</text>
+          <text class="budget-name">{{item.categoryName}}</text>
+        </view>
+        <view class="budget-right">
+          <view class="budget-amount-row">
+            <text class="budget-used {{item.exceeded ? 'text-expense' : 'text-secondary'}}">
+              已用 ¥{{item.used}}
+            </text>
+            <text class="budget-cap text-secondary">
+              / {{item.budget > 0 ? '¥' + item.budget : '—'}}
+            </text>
+          </view>
+          <view class="budget-track-sm" wx:if="{{item.budget > 0}}">
+            <view class="budget-fill-sm {{item.exceeded ? 'over' : ''}}" style="width: {{item.percent > 100 ? 100 : item.percent}}%;"></view>
+          </view>
+          <text class="budget-percent-sm {{item.exceeded ? 'text-expense' : 'text-secondary'}}" wx:if="{{item.budget > 0}}">
+            {{item.percent}}%
+          </text>
+          <text class="budget-percent-sm text-secondary" wx:else>未设置</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view style="height: 160rpx;"></view>
+</view>
+
+<!-- 修改预算弹窗 -->
+<view class="modal-mask" wx:if="{{showModal}}" bindtap="onCloseModal"></view>
+<view class="modal-sheet" wx:if="{{showModal}}">
+  <view class="modal-header flex-between">
+    <text class="modal-cancel" bindtap="onCloseModal">取消</text>
+    <text class="modal-title">{{editingItem.categoryEmoji}} {{editingItem.categoryName}}预算</text>
+    <text class="modal-save" bindtap="onSaveBudget">保存</text>
+  </view>
+  <view class="modal-body">
+    <text class="modal-label">预算金额（元/月）</text>
+    <view class="modal-input-row">
+      <text class="modal-currency">¥</text>
+      <input
+        class="modal-input"
+        type="number"
+        placeholder="输入金额，0表示不设预算"
+        value="{{editAmount}}"
+        bindinput="onAmountInput"
+        focus="{{showModal}}"
+      />
+    </view>
+    <text class="modal-hint text-secondary">设为 0 即取消该分类预算</text>
+  </view>
+</view>

@@ -1,1 +1,117 @@
-<view class="page-container flex-center" style="height:100vh;"><text class="text-secondary">搜索页面 — 第三阶段实现</text></view>
+<view class="page-container">
+
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索备注、分类、账户..."
+        value="{{keyword}}"
+        bindinput="onKeywordInput"
+        bindconfirm="onSearchConfirm"
+        confirm-type="search"
+      />
+      <text class="search-clear" wx:if="{{keyword}}" bindtap="onReset">✕</text>
+    </view>
+    <view class="search-btn" bindtap="onSearchTap">搜索</view>
+  </view>
+
+  <!-- 筛选切换 -->
+  <view class="filter-bar flex-between">
+    <view class="filter-toggle" bindtap="onToggleFilters">
+      <text>🔽 筛选条件</text>
+      <text class="filter-cue" wx:if="{{typeFilter !== 'all' || categoryId || dateStart || amountMin}}">●</text>
+    </view>
+  </view>
+
+  <!-- 筛选区 -->
+  <view class="filter-panel card" wx:if="{{showFilters}}">
+    <!-- 收支类型 -->
+    <view class="filter-row">
+      <text class="filter-label">类型</text>
+      <view class="filter-capsules">
+        <view class="filter-capsule {{typeFilter === 'all' ? 'active-default' : ''}}" bindtap="onTypeFilter" data-type="all">全部</view>
+        <view class="filter-capsule {{typeFilter === 'expense' ? 'active-expense' : ''}}" bindtap="onTypeFilter" data-type="expense">支出</view>
+        <view class="filter-capsule {{typeFilter === 'income' ? 'active-income' : ''}}" bindtap="onTypeFilter" data-type="income">收入</view>
+      </view>
+    </view>
+
+    <!-- 分类 -->
+    <view class="filter-row">
+      <text class="filter-label">分类</text>
+      <picker mode="selector" range="{{categoryNames}}" value="{{categoryIndex}}" bindchange="onCategoryPick">
+        <view class="filter-picker">
+          <text class="{{categoryId ? '' : 'text-secondary'}}">{{categoryNames[categoryIndex]}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 日期范围 -->
+    <view class="filter-row">
+      <text class="filter-label">日期</text>
+      <view class="filter-date-row">
+        <picker mode="date" value="{{dateStart}}" bindchange="onDateStartChange">
+          <view class="filter-date-box">{{dateStartLabel}}</view>
+        </picker>
+        <text class="date-sep">—</text>
+        <picker mode="date" value="{{dateEnd}}" bindchange="onDateEndChange">
+          <view class="filter-date-box">{{dateEndLabel}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 金额范围 -->
+    <view class="filter-row">
+      <text class="filter-label">金额</text>
+      <view class="filter-amt-row">
+        <input class="filter-amt-input" type="digit" placeholder="最低" value="{{amountMin}}" bindinput="onAmountMinInput" />
+        <text class="date-sep">—</text>
+        <input class="filter-amt-input" type="digit" placeholder="最高" value="{{amountMax}}" bindinput="onAmountMaxInput" />
+      </view>
+    </view>
+
+    <!-- 按钮 -->
+    <view class="filter-actions">
+      <view class="filter-reset" bindtap="onReset">重置</view>
+      <view class="btn-small" bindtap="onSearchTap">应用筛选</view>
+    </view>
+  </view>
+
+  <!-- 搜索结果 -->
+  <view wx:if="{{searched}}">
+    <view class="result-header" wx:if="{{total > 0}}">
+      <text class="text-secondary">共 {{total}} 条记录</text>
+    </view>
+
+    <view class="records-list" wx:if="{{results.length > 0}}">
+      <view wx:for="{{results}}" wx:key="id">
+        <view class="record-item" bindtap="onRecordTap" data-id="{{item.id}}">
+          <transaction-item
+            transaction="{{item}}"
+            emoji="{{item.categoryEmoji || '📦'}}"
+          />
+        </view>
+        <view class="divider"></view>
+      </view>
+    </view>
+
+    <view class="load-more" wx:if="{{hasMore && results.length > 0}}">
+      <text class="text-secondary">上拉加载更多...</text>
+    </view>
+    <view class="load-more" wx:elif="{{!hasMore && total > 20}}">
+      <text class="text-secondary">—— 已显示全部 {{total}} 条 ——</text>
+    </view>
+
+    <empty-state wx:if="{{total === 0}}" icon="🔍" text="未找到匹配记录" subText="试试调整筛选条件"></empty-state>
+  </view>
+
+  <!-- 初始状态 -->
+  <view class="search-init" wx:if="{{!searched}}">
+    <text class="search-init-icon">🔍</text>
+    <text class="search-init-text text-secondary">输入关键词或设置筛选条件后点击搜索</text>
+  </view>
+
+  <view style="height: 120rpx;"></view>
+</view>

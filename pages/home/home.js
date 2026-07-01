@@ -12,7 +12,9 @@ Page({
     balanceAbs: '0.00', incomeStr: '0.00', expenseStr: '0.00',
     todaySummary: null, todayHasData: false,
     transactions: [], page: 1, hasMore: true, ready: false,
-    swipeOffsets: {}, swipeTransition: {}, swipedId: ''
+    pasteData: null,
+    swipeOffsets: {}, swipeTransition: {}, swipedId: '',
+    budgetPercent: 0, overspentCategories: []
   },
 
   _catMap: null, _lastMonth: '', _lastVersion: -1,
@@ -24,6 +26,13 @@ Page({
   },
 
   onShow() {
+    // 检测剪贴板识别结果（自动粘贴流程）
+    const pasteData = app.globalData.pendingPasteData
+    if (pasteData) {
+      app.globalData.pendingPasteData = null
+      this.setData({ pasteData })
+    }
+
     const v = app.globalData.dataVersion
     const m = getCurrentMonth()
     if (v === this._lastVersion && m === this._lastMonth) return
@@ -36,7 +45,36 @@ Page({
   // ═══════════════ 数据加载 ═══════════════
 
   _refresh(month) {
-    const data = calculator.getHomeData(app.globalData.transactions, month, this._catMap, PAGE_SIZE)
+    const data = calculator.getHomeData(app.globalData.transactions, month, this._catMap, PAGE_SIZE, app.globalData.budgets)
+
+    // 超支检测：遍历分类检查预算
+    const overspentCategories = []
+    const cats = app.globalData.categories
+    const budgets = app.globalData.budgets
+    for (let i = 0; i < cats.length; i++) {
+      const cat = cats[i]
+      const budgetItem = budgets.find(b => b.month === month && b.categoryId === cat.id)
+      if (!budgetItem || budgetItem.amount <= 0) continue
+      let used = 0
+      const txs = app.globalData.transactions
+      for (let j = 0; j < txs.length; j++) {
+        if (txs[j].categoryId === cat.id && txs[j].type === 'expense') {
+          const ts = txs[j].timestamp
+          const d = new Date(ts)
+          const txMonth = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0')
+          if (txMonth === month) used += txs[j].amount
+        }
+      }
+      if (used > budgetItem.amount) {
+        overspentCategories.push({
+          name: cat.name, emoji: cat.emoji,
+          used: Math.round(used * 100) / 100,
+          budget: budgetItem.amount,
+          over: Math.round((used - budgetItem.amount) * 100) / 100
+        })
+      }
+    }
+
     this.setData({
       currentMonth: month,
       currentMonthLabel: formatMonthLabel(month),
@@ -51,6 +89,8 @@ Page({
       page: 1,
       hasMore: data.hasMore,
       swipeOffsets: {}, swipeTransition: {}, swipedId: '',
+      budgetPercent: data.budgetPercent,
+      overspentCategories,
       ready: true
     })
     this._lastMonth = month
@@ -77,6 +117,26 @@ Page({
 
   // ═══════════════ FAB / 记账 ═══════════════
 
+  /**
+   * 点击粘贴横幅 → 打开记账弹层并预填数据
+   */
+  onPasteBanner() {
+    const data = this.data.pasteData
+    if (!data) return
+    this.setData({ pasteData: null })
+    this.closeAllSwipes()
+    const sheet = this.selectComponent('#addSheet')
+    if (sheet) {
+      sheet.open({
+        type: data.type,
+        categoryId: data.categoryId,
+        accountId: data.accountId,
+        amount: data.amount,
+        note: data.merchant || ''
+      })
+    }
+  },
+
   onFabTap() {
     this.closeAllSwipes()
     const sheet = this.selectComponent('#addSheet')
@@ -88,7 +148,7 @@ Page({
   // ═══════════════ 记录 / 搜索 ═══════════════
 
   onRecordTap(e) {
-    const id = e.currentTarget.dataset.id || (e.detail && e.detail.id)
+    const id = (e.detail && e.detail.id) || e.currentTarget.dataset.id
     if (!id) return
     if (this.data.swipedId === id) { this.closeAllSwipes(); return }
     wx.navigateTo({ url: '/pages/transaction/edit?id=' + id })

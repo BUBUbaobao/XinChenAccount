@@ -1,1 +1,151 @@
-/* 规则管理样式 — 第三阶段实现 */
+/* ─── 页面头部 ─── */
+.page-header {
+  padding: 32rpx 32rpx 8rpx;
+}
+
+.page-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  display: block;
+}
+
+.page-desc {
+  font-size: 24rpx;
+  margin-top: 8rpx;
+  display: block;
+}
+
+/* ─── 规则列表 ─── */
+.rules-list {
+  border-radius: 48rpx;
+  overflow: hidden;
+}
+
+.rule-item {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.rule-item:last-child {
+  border-bottom: none;
+}
+
+.rule-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.rule-keyword {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.rule-arrow {
+  margin: 0 12rpx;
+  color: var(--color-text-secondary);
+  font-size: 24rpx;
+}
+
+.rule-cat-name {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.preset-tag {
+  margin-left: 12rpx;
+  padding: 2rpx 12rpx;
+  background: rgba(178, 235, 242, 0.3);
+  border-radius: 16rpx;
+}
+
+.preset-tag text {
+  font-size: 20rpx;
+  color: #4FA7B3;
+}
+
+/* ─── 添加表单 ─── */
+.form-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  margin-bottom: 20rpx;
+  color: var(--color-text-primary);
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.form-label {
+  width: 120rpx;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
+.form-input {
+  flex: 1;
+  height: 72rpx;
+  background: var(--color-bg);
+  border-radius: 16rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+}
+
+.form-picker {
+  flex: 1;
+  height: 72rpx;
+  background: var(--color-bg);
+  border-radius: 16rpx;
+  padding: 0 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+}
+
+.picker-arrow {
+  font-size: 32rpx;
+  color: var(--color-text-secondary);
+}
+
+.btn-primary {
+  margin-top: 16rpx;
+}
+
+/* ─── 添加按钮 ─── */
+.add-fab {
+  position: fixed;
+  bottom: 200rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  background: var(--color-primary);
+  padding: 20rpx 40rpx;
+  border-radius: 48rpx;
+  box-shadow: 0 8rpx 24rpx rgba(248, 187, 208, 0.4);
+  z-index: 10;
+}
+
+.add-fab:active {
+  opacity: 0.85;
+}
+
+.add-fab-icon {
+  font-size: 32rpx;
+  color: #fff;
+  font-weight: 700;
+}
+
+.add-fab-text {
+  font-size: 28rpx;
+  color: #fff;
+  margin-left: 8rpx;
+  font-weight: 500;
+}

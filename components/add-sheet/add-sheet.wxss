@@ -57,6 +57,37 @@
   margin: 0 auto 24rpx;
 }
 
+/* ─── 粘贴识别按钮 ─── */
+.paste-bar {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  background: rgba(178, 235, 242, 0.25);
+  border-radius: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.paste-bar:active {
+  background: rgba(178, 235, 242, 0.45);
+}
+
+.paste-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.paste-text {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.paste-hint {
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+  margin-left: auto;
+}
+
 /* ─── 类型切换 ─── */
 .type-switch {
   display: flex;

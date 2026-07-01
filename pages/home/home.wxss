@@ -1,3 +1,49 @@
+/* ─── 粘贴识别横幅 ─── */
+.paste-banner {
+  display: flex;
+  align-items: center;
+  margin: 16rpx 32rpx 0;
+  padding: 20rpx 24rpx;
+  background: var(--color-card);
+  border-radius: 32rpx;
+  border-left: 8rpx solid var(--color-income);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  animation: slideUp 0.3s ease-out;
+}
+
+.paste-banner:active {
+  background: #faf5f5;
+}
+
+.paste-banner-icon {
+  font-size: 40rpx;
+  margin-right: 16rpx;
+}
+
+.paste-banner-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.paste-banner-title {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.paste-banner-amount {
+  font-size: 32rpx;
+  font-weight: 700;
+  margin-top: 4rpx;
+}
+
+.paste-banner-action {
+  font-size: 24rpx;
+  color: var(--color-income);
+  font-weight: 500;
+}
+
 /* ─── 头部 ─── */
 .header {
   display: flex;
@@ -114,6 +160,37 @@
   font-size: 22rpx;
   margin-top: 8rpx;
   display: block;
+}
+
+/* ─── 超支提醒 ─── */
+.overspent-bar {
+  display: flex;
+  align-items: flex-start;
+  margin: 0 32rpx 16rpx;
+  padding: 20rpx 24rpx;
+  background: rgba(255, 138, 128, 0.12);
+  border-radius: 24rpx;
+  border-left: 8rpx solid var(--color-expense);
+  animation: slideUp 0.3s ease-out;
+}
+
+.overspent-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.overspent-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.overspent-text {
+  font-size: 26rpx;
+  color: var(--color-expense);
+  font-weight: 500;
 }
 
 /* ─── 今日速览 ─── */
