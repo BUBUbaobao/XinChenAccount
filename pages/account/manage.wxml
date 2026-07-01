@@ -1,0 +1,30 @@
+<view class="page-container">
+  <view class="card">
+    <view class="acct-item" wx:for="{{accounts}}" wx:key="id">
+      <view class="acct-left">
+        <text class="acct-emoji">{{item.emoji}}</text>
+        <view class="acct-info">
+          <text class="acct-name">{{item.name}}</text>
+          <text class="acct-balance {{item.balance >= 0 ? 'text-income' : 'text-expense'}}">
+            余额 ¥{{item.balanceStr}}
+          </text>
+        </view>
+      </view>
+      <view class="acct-actions">
+        <text wx:if="{{!item.isPreset}}" class="acct-del" bindtap="onDelete" data-id="{{item.id}}" data-name="{{item.name}}">删除</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加新账户 -->
+  <view class="card add-section">
+    <text class="section-title">添加新账户</text>
+    <view class="add-row">
+      <text class="add-label">名称</text>
+      <input class="add-input" placeholder="账户名称" value="{{newName}}" bindinput="onNameInput" maxlength="10" />
+    </view>
+    <view class="btn-primary add-btn {{!newName ? 'disabled' : ''}}" bindtap="onAdd">
+      添加账户
+    </view>
+  </view>
+</view>

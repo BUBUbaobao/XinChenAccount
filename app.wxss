@@ -1,0 +1,152 @@
+/** 昕辰记账 - 全局样式 **/
+
+/* ─── CSS 变量（马卡龙萌系色彩体系） ─── */
+page {
+  --color-primary: #F8BBD0;
+  --color-secondary: #B2EBF2;
+  --color-tertiary: #FFF9C4;
+  --color-expense: #FF8A80;
+  --color-income: #A5D6A7;
+  --color-bg: #FFF5F7;
+  --color-card: #FFFFFE;
+  --color-text-primary: #5D4037;
+  --color-text-secondary: #8D6E63;
+  --color-divider: #F0E6E8;
+
+  background-color: var(--color-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  color: var(--color-text-primary);
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+/* ─── 公共卡片样式 ─── */
+.card {
+  background-color: var(--color-card);
+  border-radius: 48rpx;
+  padding: 32rpx;
+  margin: 24rpx 32rpx;
+  box-sizing: border-box;
+}
+
+.card-sm {
+  background-color: var(--color-card);
+  border-radius: 32rpx;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+/* ─── 公共按钮样式 ─── */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  text-align: center;
+  padding: 24rpx 0;
+  border: none;
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+
+.btn-danger {
+  background-color: var(--color-expense);
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  text-align: center;
+  padding: 24rpx 0;
+  border: none;
+}
+
+/* ─── 公共文字样式 ─── */
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-income {
+  color: var(--color-income);
+}
+
+.text-expense {
+  color: var(--color-expense);
+}
+
+/* ─── 公共分割线 ─── */
+.divider {
+  height: 1rpx;
+  background-color: var(--color-divider);
+  margin: 16rpx 0;
+}
+
+/* ─── 列表项通用 ─── */
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 32rpx;
+  background-color: var(--color-card);
+  box-sizing: border-box;
+}
+
+.list-item:active {
+  background-color: #faf5f5;
+}
+
+/* ─── 安全区域底部 ─── */
+.safe-bottom {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ─── 页面容器 ─── */
+.page-container {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  padding-bottom: 160rpx;
+}
+
+/* ─── flex 公共 ─── */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+/* ─── 页面切换动画 ─── */
+@keyframes pageIn {
+  from { opacity: 0.6; transform: translateY(20rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-container {
+  animation: pageIn 0.25s ease-out;
+}

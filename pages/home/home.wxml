@@ -1,0 +1,107 @@
+<view class="page-container">
+  <!-- 问候区 + 搜索 -->
+  <view class="header">
+    <view class="greeting">
+      <text class="greeting-title">嗨，今天也想省钱吗？</text>
+      <text class="greeting-sub">{{currentMonthLabel}}已记 {{recordedDays}} 天 🔥</text>
+    </view>
+    <view class="search-icon" bindtap="onSearch">
+      <text>🔍</text>
+    </view>
+  </view>
+
+  <!-- 概览卡片 -->
+  <view class="card overview-card">
+    <text class="overview-label">本月结余</text>
+    <text class="overview-balance {{summary.balance >= 0 ? 'text-income' : 'text-expense'}}">
+      {{summary.balance >= 0 ? '¥' : '-¥'}}{{balanceAbs}}
+    </text>
+    <view class="overview-row">
+      <view class="overview-item">
+        <text class="overview-item-label">收入</text>
+        <text class="overview-item-value text-income">¥{{incomeStr}}</text>
+      </view>
+      <view class="overview-divider"></view>
+      <view class="overview-item">
+        <text class="overview-item-label">支出</text>
+        <text class="overview-item-value text-expense">¥{{expenseStr}}</text>
+      </view>
+    </view>
+    <view class="budget-bar" wx:if="{{budgetPercent > 0}}">
+      <view class="budget-track">
+        <view class="budget-fill" style="width: {{budgetPercent > 100 ? 100 : budgetPercent}}%;"></view>
+      </view>
+      <text class="budget-text text-secondary">预算使用 {{budgetPercent}}%</text>
+    </view>
+  </view>
+
+  <!-- 今日速览 -->
+  <view class="today-section">
+    <view class="today-cards" wx:if="{{todaySummary.topCategories.length > 0}}">
+      <view class="card-sm today-card" wx:for="{{todaySummary.topCategories}}" wx:key="categoryId">
+        <text class="today-card-icon">{{item.emoji || '📦'}}</text>
+        <text class="today-card-name text-secondary">{{item.categoryName}}</text>
+        <text class="today-card-amount text-expense">¥{{item.amountStr}}</text>
+      </view>
+      <view class="card-sm today-card" wx:if="{{todaySummary.otherItem}}">
+        <text class="today-card-icon">📦</text>
+        <text class="today-card-name text-secondary">{{todaySummary.otherItem.categoryName}}</text>
+        <text class="today-card-amount text-expense">¥{{todaySummary.otherItem.amountStr}}</text>
+      </view>
+    </view>
+    <view class="card-sm today-empty" wx:else>
+      <text class="today-empty-text text-secondary">暂无支出 🎉</text>
+    </view>
+  </view>
+
+  <!-- 最近记录 -->
+  <view class="records-section">
+    <view class="records-header">
+      <text class="records-title">最近记录</text>
+      <text class="records-more text-secondary" bindtap="onViewAll">查看全部 →</text>
+    </view>
+
+    <view class="records-list" wx:if="{{transactions.length > 0}}" bindtouchstart="onListTouch" catchtap="onListTap">
+      <block wx:for="{{transactions}}" wx:key="id">
+        <view class="swipe-cell" data-id="{{item.id}}" data-index="{{index}}">
+          <!-- 背后的删除按钮 -->
+          <view class="swipe-action" catchtap="onDelete" data-id="{{item.id}}">
+            <text class="swipe-action-text">删除</text>
+          </view>
+          <!-- 前景内容（跟手滑动） -->
+          <view
+            class="swipe-content {{item.id === swipedId ? 'swiped' : ''}}"
+            style="transform: translateX({{swipeOffsets[item.id] || 0}}px); transition: {{swipeTransition[item.id] ? 'transform 0.25s ease' : 'none'}};"
+            bindtouchstart="onItemTouchStart"
+            bindtouchmove="onItemTouchMove"
+            bindtouchend="onItemTouchEnd"
+            data-id="{{item.id}}"
+          >
+            <transaction-item
+              transaction="{{item}}"
+              emoji="{{item.categoryEmoji || '📦'}}"
+              bind:tap="onRecordTap"
+              data-id="{{item.id}}"
+            />
+            <view class="divider"></view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <empty-state wx:else icon="📝" text="还没有记账记录" subText="点击下方 + 按钮开始记账吧"></empty-state>
+
+    <view class="load-more" wx:if="{{hasMore && transactions.length > 0}}">
+      <text class="text-secondary">上拉加载更多...</text>
+    </view>
+    <view class="load-more" wx:elif="{{!hasMore && transactions.length >= 20}}">
+      <text class="text-secondary">—— 已加载全部记录 ——</text>
+    </view>
+  </view>
+
+  <view style="height: 160rpx;"></view>
+</view>
+
+<fab bind:tap="onFabTap"></fab>
+<add-sheet id="addSheet" bind:close="onSheetClose" bind:saved="onSaved"></add-sheet>
+<custom-tab-bar></custom-tab-bar>

@@ -1,0 +1,91 @@
+<!-- 记账半弹层 -->
+<view class="sheet-mask {{visible ? 'show' : ''}}" bindtap="onClose">
+  <view class="sheet-panel {{visible ? 'show' : ''}}" catchtap="noop">
+    <scroll-view class="sheet-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+      <!-- 拖拽把手 -->
+      <view class="sheet-handle"></view>
+
+      <!-- 类型切换：支出/收入 -->
+      <view class="type-switch">
+        <view class="type-tab {{type === 'expense' ? 'active expense' : ''}}" bindtap="switchType" data-type="expense">支出</view>
+        <view class="type-tab {{type === 'income' ? 'active income' : ''}}" bindtap="switchType" data-type="income">收入</view>
+      </view>
+
+      <!-- 分类选择网格 -->
+      <view class="category-grid">
+        <view
+          class="cat-item {{selectedCategoryId === item.id ? 'selected' : ''}}"
+          wx:for="{{categories}}"
+          wx:key="id"
+          bindtap="selectCategory"
+          data-id="{{item.id}}"
+        >
+          <view class="cat-icon">{{item.emoji}}</view>
+          <text class="cat-name">{{item.name}}</text>
+        </view>
+      </view>
+
+      <!-- 金额显示 -->
+      <view class="amount-display">
+        <text class="amount-value {{type === 'expense' ? 'text-expense' : 'text-income'}}">
+          {{type === 'expense' ? '-' : '+'}}¥{{displayAmount}}
+        </text>
+      </view>
+
+      <!-- 数字键盘 -->
+      <view class="keypad">
+        <view class="key-row" wx:for="{{keypadRows}}" wx:key="*this" wx:for-item="row">
+          <view
+            class="key {{item === '⌫' ? 'key-delete' : ''}}"
+            wx:for="{{row}}"
+            wx:key="*this"
+            wx:for-item="item"
+            bindtap="onKeyTap"
+            data-key="{{item}}"
+          >
+            <text>{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 可选信息区（折叠） -->
+      <view class="extra-section">
+        <view class="extra-toggle" bindtap="toggleExtra">
+          <text class="text-secondary">更多信息</text>
+          <text>{{showExtra ? '▲' : '▼'}}</text>
+        </view>
+        <view class="extra-content" wx:if="{{showExtra}}">
+          <view class="extra-row">
+            <text class="extra-label">备注</text>
+            <input class="extra-input" placeholder="添加备注..." value="{{note}}" bindinput="onNoteInput" maxlength="50" />
+          </view>
+          <view class="extra-row">
+            <text class="extra-label">账户</text>
+            <picker mode="selector" range="{{accountNames}}" value="{{accountIndex}}" bindchange="onAccountChange">
+              <view class="picker-display">
+                <text>{{accountNames[accountIndex]}}</text>
+                <text class="picker-arrow">›</text>
+              </view>
+            </picker>
+          </view>
+          <view class="extra-row">
+            <text class="extra-label">时间</text>
+            <picker mode="date" value="{{dateValue}}" bindchange="onDateChange">
+              <view class="picker-display">
+                <text>{{dateLabel}}</text>
+                <text class="picker-arrow">›</text>
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+
+      <!-- 保存按钮 -->
+      <view class="save-section">
+        <view class="save-btn {{amount === 0 ? 'disabled' : ''}}" bindtap="onSave">
+          保存
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

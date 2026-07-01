@@ -1,0 +1,92 @@
+<view class="page-container">
+  <view class="card edit-card">
+    <!-- 交易来源标签 -->
+    <view class="source-tag">
+      <text class="tag {{source === 'wechat' ? 'tag-wechat' : 'tag-manual'}}">
+        {{source === 'wechat' ? '🤖 微信自动' : '✏️ 手动录入'}}
+      </text>
+    </view>
+
+    <!-- 金额显示 -->
+    <view class="amount-display">
+      <text class="amount-value {{type === 'expense' ? 'text-expense' : 'text-income'}}">
+        {{type === 'expense' ? '-' : '+'}}¥{{displayAmount}}
+      </text>
+    </view>
+
+    <!-- 数字键盘 -->
+    <view class="keypad">
+      <view class="key-row" wx:for="{{keypadRows}}" wx:key="*this" wx:for-item="row">
+        <view
+          class="key {{item === '⌫' ? 'key-delete' : ''}}"
+          wx:for="{{row}}"
+          wx:key="*this"
+          wx:for-item="item"
+          bindtap="onKeyTap"
+          data-key="{{item}}"
+        >
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 类型 -->
+    <view class="edit-row">
+      <text class="edit-label">类型</text>
+      <view class="type-toggles">
+        <view class="mini-tab {{type === 'expense' ? 'active expense' : ''}}" bindtap="switchType" data-type="expense">支出</view>
+        <view class="mini-tab {{type === 'income' ? 'active income' : ''}}" bindtap="switchType" data-type="income">收入</view>
+      </view>
+    </view>
+
+    <!-- 分类 -->
+    <view class="edit-row">
+      <text class="edit-label">分类</text>
+      <picker mode="selector" range="{{categoryNames}}" value="{{categoryIndex}}" bindchange="onCategoryChange">
+        <view class="picker-display">
+          <text>{{categoryNames[categoryIndex]}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 账户 -->
+    <view class="edit-row">
+      <text class="edit-label">账户</text>
+      <picker mode="selector" range="{{accountNames}}" value="{{accountIndex}}" bindchange="onAccountChange">
+        <view class="picker-display">
+          <text>{{accountNames[accountIndex]}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 备注 -->
+    <view class="edit-row">
+      <text class="edit-label">备注</text>
+      <input class="edit-input" value="{{note}}" bindinput="onNoteInput" placeholder="添加备注..." maxlength="50" />
+    </view>
+
+    <!-- 交易时间 -->
+    <view class="edit-row">
+      <text class="edit-label">时间</text>
+      <picker mode="date" value="{{dateValue}}" bindchange="onDateChange">
+        <view class="picker-display">
+          <text>{{dateLabel}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 商户/描述 -->
+    <view class="edit-row" wx:if="{{description}}">
+      <text class="edit-label">商户</text>
+      <text class="edit-value text-secondary">{{description}}</text>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view style="padding: 32rpx;">
+    <view class="btn-save {{amount === 0 ? 'disabled' : ''}}" bindtap="onSave">保存修改</view>
+  </view>
+</view>

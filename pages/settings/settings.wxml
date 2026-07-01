@@ -1,0 +1,87 @@
+<view class="page-container">
+  <!-- 顶部卡片 -->
+  <view class="card top-card">
+    <text class="top-title">我的记账</text>
+    <text class="top-sub">本地数据，安全可靠 🔒</text>
+    <view class="top-stats">
+      <view class="top-stat-item">
+        <text class="top-stat-num">{{totalRecords}}</text>
+        <text class="top-stat-label">总记录</text>
+      </view>
+      <view class="top-stat-item">
+        <text class="top-stat-num">{{storagePercent}}%</text>
+        <text class="top-stat-label">存储用量</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分组列表 -->
+  <view class="card setting-group">
+    <text class="group-title">使用</text>
+    <view class="setting-row" bindtap="onTap" data-url="/pages/logs/index">
+      <text class="setting-icon">📋</text>
+      <text class="setting-label">使用指引</text>
+      <text class="setting-arrow">›</text>
+    </view>
+    <view class="setting-row" bindtap="onTap" data-url="/pages/logs/index">
+      <text class="setting-icon">📝</text>
+      <text class="setting-label">解析日志</text>
+      <text class="setting-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="card setting-group">
+    <text class="group-title">数据</text>
+    <view class="setting-row" bindtap="onNavTo" data-url="/pages/category/manage">
+      <text class="setting-icon">🏷️</text>
+      <text class="setting-label">分类管理</text>
+      <text class="setting-arrow">›</text>
+    </view>
+    <view class="setting-row" bindtap="onNavTo" data-url="/pages/rules/manage">
+      <text class="setting-icon">🔗</text>
+      <text class="setting-label">规则管理</text>
+      <text class="setting-arrow">›</text>
+    </view>
+    <view class="setting-row" bindtap="onNavTo" data-url="/pages/account/manage">
+      <text class="setting-icon">💳</text>
+      <text class="setting-label">账户管理</text>
+      <text class="setting-arrow">›</text>
+    </view>
+    <view class="setting-row" bindtap="onNavTo" data-url="/pages/budget/set">
+      <text class="setting-icon">🎯</text>
+      <text class="setting-label">预算设置</text>
+      <text class="setting-arrow">›</text>
+    </view>
+    <view class="setting-row" bindtap="onNavTo" data-url="/pages/search/index">
+      <text class="setting-icon">🔍</text>
+      <text class="setting-label">搜索记录</text>
+      <text class="setting-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="card setting-group">
+    <text class="group-title">AI</text>
+    <view class="setting-row">
+      <text class="setting-icon">🤖</text>
+      <text class="setting-label">AI 分析模式</text>
+      <text class="setting-value">本地规则</text>
+    </view>
+  </view>
+
+  <view class="card setting-group">
+    <text class="group-title">其他</text>
+    <view class="setting-row setting-row-danger" bindtap="onClearData">
+      <text class="setting-icon">🗑️</text>
+      <text class="setting-label" style="color: #FF8A80;">清空所有数据</text>
+      <text class="setting-arrow">›</text>
+    </view>
+    <view class="setting-row">
+      <text class="setting-icon">ℹ️</text>
+      <text class="setting-label">关于</text>
+      <text class="setting-value">v1.0.0</text>
+    </view>
+  </view>
+
+  <view style="height: 160rpx;"></view>
+</view>
+<custom-tab-bar></custom-tab-bar>

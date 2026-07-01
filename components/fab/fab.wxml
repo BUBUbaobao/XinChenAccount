@@ -1,0 +1,5 @@
+<view class="fab-wrapper">
+  <view class="fab {{animating ? 'fab-press' : ''}}" bindtap="onTap">
+    <text class="fab-icon">+</text>
+  </view>
+</view>

@@ -1,0 +1,84 @@
+.acct-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 0;
+}
+
+.acct-item + .acct-item {
+  border-top: 1rpx solid var(--color-divider);
+}
+
+.acct-left {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.acct-emoji {
+  font-size: 48rpx;
+}
+
+.acct-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.acct-name {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+}
+
+.acct-balance {
+  font-size: 24rpx;
+  margin-top: 4rpx;
+}
+
+.acct-del {
+  font-size: 26rpx;
+  color: var(--color-expense);
+  padding: 8rpx 16rpx;
+}
+
+/* ─── 添加区域 ─── */
+.add-section {
+  margin-top: 24rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.add-row {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+}
+
+.add-label {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  width: 100rpx;
+  flex-shrink: 0;
+}
+
+.add-input {
+  flex: 1;
+  font-size: 28rpx;
+  padding: 12rpx 16rpx;
+  background: #FAFAFA;
+  border-radius: 16rpx;
+}
+
+.add-btn {
+  margin-top: 20rpx;
+}
+
+.add-btn.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}

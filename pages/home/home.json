@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "custom-tab-bar": "/components/custom-tab-bar/index",
+    "fab": "/components/fab/fab",
+    "add-sheet": "/components/add-sheet/add-sheet",
+    "transaction-item": "/components/transaction-item/transaction-item",
+    "empty-state": "/components/empty-state/empty-state"
+  },
+  "navigationBarTitleText": "昕辰记账"
+}

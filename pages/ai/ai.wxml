@@ -1,0 +1,4 @@
+<view class="page-container flex-center" style="height:100vh;">
+  <text class="text-secondary">AI助手页面 — 第五阶段实现</text>
+</view>
+<custom-tab-bar></custom-tab-bar>

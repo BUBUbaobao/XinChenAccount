@@ -1,0 +1,167 @@
+.edit-card {
+  margin-top: 32rpx;
+}
+
+.source-tag {
+  margin-bottom: 20rpx;
+}
+
+.tag {
+  display: inline-block;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+}
+
+.tag-wechat {
+  background: rgba(178, 235, 242, 0.4);
+  color: var(--color-text-secondary);
+}
+
+.tag-manual {
+  background: rgba(248, 187, 208, 0.3);
+  color: var(--color-text-secondary);
+}
+
+/* ─── 金额显示 ─── */
+.amount-display {
+  text-align: center;
+  padding: 24rpx 0;
+}
+
+.amount-value {
+  font-size: 72rpx;
+  font-weight: 700;
+}
+
+/* ─── 数字键盘（与 add-sheet 一致） ─── */
+.keypad {
+  background: #FAFAFA;
+  border-radius: 32rpx;
+  padding: 8rpx;
+  margin-bottom: 16rpx;
+}
+
+.key-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.key {
+  flex: 1;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  border-radius: 20rpx;
+  margin: 4rpx;
+  background: #fff;
+}
+
+.key:active {
+  background: #F0F0F0;
+}
+
+.key-delete {
+  background: #F5F5F5;
+}
+
+.key-delete text {
+  font-size: 32rpx;
+  color: var(--color-text-secondary);
+}
+
+/* ─── 编辑行 ─── */
+.edit-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 0;
+}
+
+.edit-row + .edit-row {
+  border-top: 1rpx solid var(--color-divider);
+}
+
+.edit-label {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+  width: 120rpx;
+}
+
+.edit-input {
+  flex: 1;
+  text-align: right;
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+}
+
+.edit-value {
+  font-size: 28rpx;
+  flex: 1;
+  text-align: right;
+}
+
+.type-toggles {
+  display: flex;
+  margin-left: 12rpx;
+}
+
+.type-toggles .mini-tab + .mini-tab {
+  margin-left: 12rpx;
+}
+
+.mini-tab {
+  padding: 8rpx 32rpx;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  background: #F5F5F5;
+  color: var(--color-text-secondary);
+}
+
+.mini-tab.active.expense {
+  background: var(--color-expense);
+  color: #fff;
+}
+
+.mini-tab.active.income {
+  background: var(--color-income);
+  color: #fff;
+}
+
+.picker-display {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+}
+
+.picker-arrow {
+  font-size: 36rpx;
+  color: var(--color-text-secondary);
+  margin-left: 8rpx;
+}
+
+/* ─── 保存按钮（绿底白字） ─── */
+.btn-save {
+  background-color: var(--color-income);
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  text-align: center;
+  padding: 24rpx 0;
+}
+
+.btn-save:active {
+  opacity: 0.85;
+}
+
+.btn-save.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}

@@ -1,0 +1,17 @@
+<view class="tx-item" bindtap="onTap">
+  <!-- 分类图标 -->
+  <view class="tx-icon-wrap">
+    <text class="tx-icon">{{emoji}}</text>
+  </view>
+
+  <!-- 中间信息 -->
+  <view class="tx-info">
+    <text class="tx-name">{{name}}</text>
+    <text class="tx-meta">{{timeStr}}{{note ? ' · ' + note : ''}}</text>
+  </view>
+
+  <!-- 金额 -->
+  <view class="tx-amount {{type === 'income' ? 'text-income' : 'text-expense'}}">
+    {{type === 'income' ? '+' : '-'}}¥{{amountStr}}
+  </view>
+</view>

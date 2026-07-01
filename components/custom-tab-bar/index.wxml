@@ -1,0 +1,29 @@
+<view class="tab-bar">
+  <view class="tab-bar-inner">
+    <view class="tab-item" data-path="pages/home/home" data-index="0" bindtap="switchTab">
+      <text class="tab-emoji">🏠</text>
+      <text class="tab-label {{selected === 0 ? 'active' : ''}}">首页</text>
+      <view class="tab-dot" wx:if="{{selected === 0}}"></view>
+    </view>
+
+    <view class="tab-item" data-path="pages/stats/stats" data-index="1" bindtap="switchTab">
+      <text class="tab-emoji">📊</text>
+      <text class="tab-label {{selected === 1 ? 'active' : ''}}">统计</text>
+      <view class="tab-dot" wx:if="{{selected === 1}}"></view>
+    </view>
+
+    <view class="tab-item fab-placeholder"></view>
+
+    <view class="tab-item" data-path="pages/ai/ai" data-index="2" bindtap="switchTab">
+      <text class="tab-emoji">🤖</text>
+      <text class="tab-label {{selected === 2 ? 'active' : ''}}">AI助手</text>
+      <view class="tab-dot" wx:if="{{selected === 2}}"></view>
+    </view>
+
+    <view class="tab-item" data-path="pages/settings/settings" data-index="3" bindtap="switchTab">
+      <text class="tab-emoji">👤</text>
+      <text class="tab-label {{selected === 3 ? 'active' : ''}}">我的</text>
+      <view class="tab-dot" wx:if="{{selected === 3}}"></view>
+    </view>
+  </view>
+</view>

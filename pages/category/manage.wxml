@@ -1,0 +1,31 @@
+<view class="page-container">
+  <view class="card">
+    <view class="cat-item" wx:for="{{categories}}" wx:key="id">
+      <view class="cat-left">
+        <view class="cat-icon">{{item.emoji}}</view>
+        <text class="cat-name">{{item.name}}</text>
+        <text class="cat-preset" wx:if="{{item.isPreset}}">预置</text>
+      </view>
+      <view class="cat-del" wx:if="{{!item.isPreset}}" bindtap="onDelete" data-id="{{item.id}}" data-name="{{item.name}}">
+        <text>删除</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加新分类 -->
+  <view class="card add-section">
+    <text class="section-title">添加新分类</text>
+    <view class="add-row">
+      <text class="add-label">名称</text>
+      <input class="add-input" placeholder="分类名称" value="{{newName}}" bindinput="onNameInput" maxlength="10" />
+    </view>
+    <view class="add-row">
+      <text class="add-label">图标</text>
+      <input class="add-input" placeholder="选择一个 Emoji" value="{{newEmoji}}" bindinput="onEmojiInput" maxlength="4" />
+      <text class="emoji-hint">💡 用输入法输入 Emoji</text>
+    </view>
+    <view class="btn-primary add-btn {{!newName ? 'disabled' : ''}}" bindtap="onAdd">
+      添加分类
+    </view>
+  </view>
+</view>
